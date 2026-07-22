@@ -127,9 +127,9 @@ main {
 .story-image {
   width: 100%;
   aspect-ratio: 4 / 3;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
-  background: var(--border);
+  background: var(--card-bg);
 }
 
 .story-image-placeholder {
@@ -161,7 +161,11 @@ main {
 
 .story-detail .story-image {
   border-radius: 10px;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: auto;
+  width: 100%;
+  height: auto;
+  max-height: 60vh;
+  object-fit: contain;
 }
 
 .story-summary {
