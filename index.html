@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scripture Stories</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>Scripture Stories</h1>
+    <nav class="site-nav">
+      <button type="button" data-nav="random">Random</button>
+      <button type="button" data-nav="browse">Browse</button>
+      <button type="button" data-nav="gallery">Gallery</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="view-random" class="view">
+      <button id="random-btn" class="primary-btn">Show me a story</button>
+      <div id="random-category-filter" class="category-filter"></div>
+      <div id="random-result" class="result"></div>
+    </section>
+
+    <section id="view-browse" class="view" hidden>
+      <div id="browse-categories" class="category-filter"></div>
+      <div id="browse-results" class="story-grid"></div>
+    </section>
+
+    <section id="view-gallery" class="view" hidden>
+      <div id="gallery-grid" class="story-grid"></div>
+      <button id="gallery-load-more" class="primary-btn" hidden>Load more</button>
+    </section>
+  </main>
+
+  <div id="story-modal" class="modal-overlay" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-content">
+      <button type="button" class="modal-close" data-close>× Close</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

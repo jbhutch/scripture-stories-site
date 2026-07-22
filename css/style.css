@@ -1,0 +1,245 @@
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e0e0e0;
+  --accent: #6b4fa0;
+  --accent-fg: #ffffff;
+  --card-bg: #f7f6f9;
+  --error-bg: #fdecea;
+  --error-fg: #7a1f14;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16151a;
+    --fg: #eeeeee;
+    --muted: #a3a3a3;
+    --border: #333;
+    --accent: #9b7fd4;
+    --accent-fg: #14121a;
+    --card-bg: #1f1e26;
+    --error-bg: #3a1a16;
+    --error-fg: #f2a99e;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.site-nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.site-nav button {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--fg);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.site-nav button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.primary-btn {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border: none;
+  padding: 0.7rem 1.4rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.category-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.story-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+
+.story-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  background: var(--border);
+}
+
+.story-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+
+.story-card-body {
+  padding: 0.6rem 0.75rem;
+}
+
+.story-card-body h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.story-reference {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.story-detail {
+  max-width: 480px;
+  margin-top: 1rem;
+}
+
+.story-detail .story-image {
+  border-radius: 10px;
+  aspect-ratio: 16 / 10;
+}
+
+.story-summary {
+  line-height: 1.5;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.modal-overlay[hidden] {
+  display: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+  position: relative;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.modal-content .story-detail {
+  margin-top: 0;
+}
+
+.modal-close {
+  position: sticky;
+  top: 0;
+  float: right;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.25rem 0 0.75rem;
+}
+
+.modal-loading {
+  min-height: 8rem;
+}
+
+.error-banner {
+  background: var(--error-bg);
+  color: var(--error-fg);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.loading::after {
+  content: "Loading…";
+  display: block;
+  color: var(--muted);
+  padding: 1rem 0;
+}
+
+#gallery-load-more {
+  display: block;
+  margin: 1.5rem auto 0;
+}
