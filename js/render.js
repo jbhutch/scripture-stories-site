@@ -1,22 +1,28 @@
+// Returns null when there's no image. Callers mark the card/detail with the
+// `no-image` class instead of substituting a placeholder, so image-less
+// stories read as a deliberate text card rather than a failed load.
 export function buildImage(imageUrl, alt) {
-  if (!imageUrl) return buildPlaceholder(alt);
+  if (!imageUrl) return null;
 
   const img = document.createElement("img");
   img.src = imageUrl;
   img.alt = alt;
   img.loading = "lazy";
   img.className = "story-image";
-  img.onerror = () => img.replaceWith(buildPlaceholder(alt));
+  img.onerror = () => {
+    img.closest(".story-card, .story-detail")?.classList.add("no-image");
+    img.remove();
+  };
   return img;
 }
 
-function buildPlaceholder(alt) {
-  const span = document.createElement("span");
-  span.className = "story-image story-image-placeholder";
-  span.setAttribute("role", "img");
-  span.setAttribute("aria-label", alt);
-  span.textContent = "📖";
-  return span;
+function appendImage(container, story) {
+  const img = buildImage(story.image, story.title);
+  if (img) {
+    container.appendChild(img);
+  } else {
+    container.classList.add("no-image");
+  }
 }
 
 export function buildStoryCard(story, { onClick } = {}) {
@@ -27,7 +33,7 @@ export function buildStoryCard(story, { onClick } = {}) {
     card.addEventListener("click", () => onClick(story));
   }
 
-  card.appendChild(buildImage(story.image, story.title));
+  appendImage(card, story);
 
   const body = document.createElement("div");
   body.className = "story-card-body";
@@ -36,6 +42,9 @@ export function buildStoryCard(story, { onClick } = {}) {
   title.textContent = story.title;
   body.appendChild(title);
 
+  // Plain text here even when the story has a referenceUrl -- an <a> can't be
+  // nested inside the <button> the card is built from. The link lives in the
+  // detail view instead.
   const reference = document.createElement("p");
   reference.className = "story-reference";
   reference.textContent = story.reference;
@@ -45,20 +54,42 @@ export function buildStoryCard(story, { onClick } = {}) {
   return card;
 }
 
+// The API supplies referenceUrl, already resolved to the right
+// churchofjesuschrist.org chapter (and verse anchor, where the reference has
+// one). It's null for references with no canonical page, so fall back to text.
+function buildReference(story) {
+  if (!story.referenceUrl) {
+    const p = document.createElement("p");
+    p.className = "story-reference";
+    p.textContent = story.reference;
+    return p;
+  }
+
+  const p = document.createElement("p");
+  p.className = "story-reference";
+
+  const link = document.createElement("a");
+  link.className = "story-reference-link";
+  link.href = story.referenceUrl;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.textContent = story.reference;
+
+  p.appendChild(link);
+  return p;
+}
+
 export function buildStoryDetail(story) {
   const wrap = document.createElement("div");
   wrap.className = "story-detail";
 
-  wrap.appendChild(buildImage(story.image, story.title));
+  appendImage(wrap, story);
 
   const title = document.createElement("h2");
   title.textContent = story.title;
   wrap.appendChild(title);
 
-  const reference = document.createElement("p");
-  reference.className = "story-reference";
-  reference.textContent = story.reference;
-  wrap.appendChild(reference);
+  wrap.appendChild(buildReference(story));
 
   if (story.summary) {
     const summary = document.createElement("p");

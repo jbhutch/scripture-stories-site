@@ -34,7 +34,21 @@ which runs on every push to `main`. One-time manual setup in the GitHub UI:
 
 ## Views
 
-- **Random** — pulls one random story, optionally filtered by category.
-- **Browse** — filter stories by category, shown as a card grid.
+- **Random** — loads a story immediately on arrival; "Show me another"
+  pulls a new one, and ticking a category swaps in a story from it right
+  away.
+- **Browse** — two levels. First the four sections (Old Testament, New
+  Testament, Book of Mormon, Church History), then that section's stories.
+  The section lives in the hash (`#browse/old_testament`), so links are
+  shareable and the back button works.
 - **Gallery** — all stories, loaded in batches; click a card for the full
   summary.
+
+Clicking any card opens the full summary, where the scripture reference
+links to the corresponding chapter on churchofjesuschrist.org. That link
+comes from the API's `referenceUrl` field — the site does no URL
+derivation of its own, and falls back to plain text when the field is
+absent or `null`.
+
+Stories with no image render as text-only cards rather than showing a
+placeholder.
