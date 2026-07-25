@@ -4,7 +4,9 @@ import { buildStoryDetail, showError, clear } from "./render.js";
 export async function initRandomView() {
   const filterEl = document.getElementById("random-category-filter");
   const resultEl = document.getElementById("random-result");
-  const button = document.getElementById("random-btn");
+  // One above the story and one below it, so you can reroll without scrolling
+  // past a long summary either way. Both do the same thing.
+  const buttons = document.querySelectorAll(".random-btn");
 
   let categories = [];
 
@@ -29,7 +31,7 @@ export async function initRandomView() {
     }
   }
 
-  button.addEventListener("click", loadStory);
+  for (const button of buttons) button.addEventListener("click", loadStory);
 
   try {
     const { categories: list } = await getCategories();
