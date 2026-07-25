@@ -337,8 +337,30 @@ body.modal-open {
   margin: 1.5rem auto 0;
 }
 
-/* Sits below the story now -- the story is the point of the page, the button
-   is how you move on from it. */
-#random-btn {
+/* The story column is much narrower than the page, so centre the whole block
+   rather than stranding it against the left edge on a wide screen. The text
+   inside stays left-aligned -- only the block moves. */
+.random-stack {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* Full width so the four categories stay on one line, but centred over the
+   story column below them. */
+#view-random .category-filter {
+  justify-content: center;
+}
+
+.random-btn {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.random-btn-top {
+  margin-bottom: 1.25rem;
+}
+
+.random-btn-bottom {
   margin-top: 1.5rem;
 }
