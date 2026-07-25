@@ -34,10 +34,12 @@ which runs on every push to `main`. One-time manual setup in the GitHub UI:
 
 ## Views
 
-- **Random** — loads a story immediately on arrival. A button above the
-  story ("Random Story") and one below it ("Show me another") both pull a
-  new one, so you can reroll without scrolling past a long summary either
-  way. Ticking a category swaps in a story from it right away.
+- **Random** — loads a story immediately on arrival. Identical "Surprise
+  me" buttons above and below the story both pull a new one, so you can
+  reroll without scrolling past a long summary either way. The label
+  avoids referring to a previous story ("another", "again") because the
+  top button is read *before* the story it sits above. Ticking a category
+  swaps in a story from it right away.
 - **Browse** — two levels. First the four sections (Old Testament, New
   Testament, Book of Mormon, Church History), then that section's stories.
   The section lives in the hash (`#browse/old_testament`), so links are
