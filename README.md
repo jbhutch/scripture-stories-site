@@ -46,6 +46,25 @@ which runs on every push to `main`. One-time manual setup in the GitHub UI:
   shareable and the back button works.
 - **Gallery** — all stories, loaded in batches; click a card for the full
   summary.
+- **Widgets** — instructions for running the story as an iOS Home Screen
+  widget via [Scriptable](https://scriptable.app). Static content, no API
+  calls.
+
+## Widget script
+
+[`widget/scripture-stories-widget.js`](widget/scripture-stories-widget.js)
+is served as a plain file so people can download it, and the Widgets page
+fetches that same file to render the on-page code block — so what's shown
+and what's taken away can't drift apart.
+
+It is, however, **a copy of `clients/scriptable/` in the API repo**. The
+two are not linked; if you change one, change the other. The API repo's
+copy is the original.
+
+The page pushes people hard toward the **large** widget size, because the
+script renders the story summary and only the large family has room for
+it — small omits the summary entirely and medium truncates it. iOS can't
+resize a placed widget, so picking wrong means removing and re-adding.
 
 Clicking any card opens the full summary, where the scripture reference
 links to the corresponding chapter on churchofjesuschrist.org. That link
