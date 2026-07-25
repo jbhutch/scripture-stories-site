@@ -7,20 +7,44 @@ export async function initRandomView() {
   const button = document.getElementById("random-btn");
 
   let categories = [];
+
+  // Filter changes fire a fetch each, so a fast sequence of clicks can have
+  // several in flight. Only the newest is allowed to render, otherwise a slow
+  // earlier response could land last and show a story from the wrong filter.
+  let latestRequest = 0;
+
+  async function loadStory() {
+    const requestId = ++latestRequest;
+    clear(resultEl);
+    resultEl.classList.add("loading");
+    try {
+      const story = await getRandomStory(categories);
+      if (requestId !== latestRequest) return;
+      resultEl.classList.remove("loading");
+      resultEl.appendChild(buildStoryDetail(story));
+    } catch (err) {
+      if (requestId !== latestRequest) return;
+      resultEl.classList.remove("loading");
+      showError(resultEl, err instanceof ApiError ? err : new ApiError(0, { message: String(err) }));
+    }
+  }
+
+  button.addEventListener("click", loadStory);
+
   try {
     const { categories: list } = await getCategories();
     filterEl.innerHTML = "";
     for (const { slug, label, count } of list) {
-      const id = `random-cat-${slug}`;
       const wrap = document.createElement("label");
       wrap.className = "category-checkbox";
 
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      checkbox.id = id;
+      checkbox.id = `random-cat-${slug}`;
       checkbox.value = slug;
       checkbox.addEventListener("change", () => {
         categories = [...filterEl.querySelectorAll("input:checked")].map((el) => el.value);
+        loadStory();
       });
 
       wrap.appendChild(checkbox);
@@ -31,16 +55,7 @@ export async function initRandomView() {
     showError(filterEl, err);
   }
 
-  button.addEventListener("click", async () => {
-    clear(resultEl);
-    resultEl.classList.add("loading");
-    try {
-      const story = await getRandomStory(categories);
-      resultEl.classList.remove("loading");
-      resultEl.appendChild(buildStoryDetail(story));
-    } catch (err) {
-      resultEl.classList.remove("loading");
-      showError(resultEl, err instanceof ApiError ? err : new ApiError(0, { message: String(err) }));
-    }
-  });
+  // Show a story on arrival rather than making the button the price of entry.
+  // Runs even if the category list failed to load -- unfiltered still works.
+  loadStory();
 }

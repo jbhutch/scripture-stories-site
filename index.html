@@ -18,14 +18,18 @@
 
   <main>
     <section id="view-random" class="view">
-      <button id="random-btn" class="primary-btn">Show me a story</button>
       <div id="random-category-filter" class="category-filter"></div>
       <div id="random-result" class="result"></div>
+      <button id="random-btn" class="primary-btn">Show me another</button>
     </section>
 
     <section id="view-browse" class="view" hidden>
-      <div id="browse-categories" class="category-filter"></div>
-      <div id="browse-results" class="story-grid"></div>
+      <div id="browse-sections" class="section-grid"></div>
+      <div id="browse-section-view" hidden>
+        <a class="browse-back" href="#browse">← All sections</a>
+        <h2 id="browse-section-title"></h2>
+        <div id="browse-results" class="story-grid"></div>
+      </div>
     </section>
 
     <section id="view-gallery" class="view" hidden>

@@ -29,6 +29,13 @@
   box-sizing: border-box;
 }
 
+/* Any author `display` beats the UA stylesheet's [hidden] rule, so elements
+   toggled via the hidden attribute (views, the browse section list, the modal)
+   need this to actually disappear. */
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -132,13 +139,6 @@ main {
   background: var(--card-bg);
 }
 
-.story-image-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5rem;
-}
-
 .story-card-body {
   padding: 0.6rem 0.75rem;
 }
@@ -148,10 +148,103 @@ main {
   font-size: 1rem;
 }
 
+/* Stories without an image drop the image area entirely rather than showing a
+   placeholder, so a missing picture reads as a text card, not a broken one.
+   The tint and extra padding keep them from looking like short, empty cards
+   next to their illustrated neighbours. */
+.story-card.no-image {
+  background: var(--card-bg);
+  background: color-mix(in srgb, var(--accent) 8%, var(--card-bg));
+  /* Grid rows stretch every card to the tallest one, so centre the text
+     rather than leaving it stranded at the top of the empty space. */
+  justify-content: center;
+}
+
+.story-card.no-image .story-card-body {
+  padding: 1.1rem 0.9rem;
+}
+
+.story-card.no-image .story-card-body h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.4rem;
+}
+
 .story-reference {
   margin: 0;
   color: var(--muted);
   font-size: 0.85rem;
+}
+
+.story-reference-link {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.story-reference-link:hover,
+.story-reference-link:focus-visible {
+  text-decoration: underline;
+}
+
+.story-reference-link::after {
+  content: " ↗";
+  font-size: 0.8em;
+}
+
+/* Browse's first level: pick a section, then see its stories. */
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 500px) {
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.section-card {
+  display: block;
+  padding: 1.5rem 1.25rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.section-card:hover,
+.section-card:focus-visible {
+  border-color: var(--accent);
+}
+
+.section-card h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.15rem;
+}
+
+.section-count {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.browse-back {
+  display: inline-block;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.browse-back:hover,
+.browse-back:focus-visible {
+  color: var(--accent);
+}
+
+#browse-section-title {
+  margin: 0.75rem 0 0;
+  font-size: 1.35rem;
 }
 
 .story-detail {
@@ -184,10 +277,6 @@ body.modal-open {
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-}
-
-.modal-overlay[hidden] {
-  display: none;
 }
 
 .modal-backdrop {
@@ -246,4 +335,10 @@ body.modal-open {
 #gallery-load-more {
   display: block;
   margin: 1.5rem auto 0;
+}
+
+/* Sits below the story now -- the story is the point of the page, the button
+   is how you move on from it. */
+#random-btn {
+  margin-top: 1.5rem;
 }
