@@ -13,6 +13,7 @@
       <button type="button" data-nav="random">Random</button>
       <button type="button" data-nav="browse">Browse</button>
       <button type="button" data-nav="gallery">Gallery</button>
+      <button type="button" data-nav="widgets">Widgets</button>
     </nav>
   </header>
 
@@ -38,6 +39,181 @@
     <section id="view-gallery" class="view" hidden>
       <div id="gallery-grid" class="story-grid"></div>
       <button id="gallery-load-more" class="primary-btn" hidden>Load more</button>
+    </section>
+
+    <section id="view-widgets" class="view" hidden>
+      <div class="prose">
+        <h2>Put a scripture story on your iOS Home Screen</h2>
+        <p class="lede">
+          A free app called Scriptable can run a small script that pulls a random
+          story from this site's API and draws it as a Home Screen widget. It
+          picks a new story roughly every hour, so you get a different one
+          through the day without opening anything.
+        </p>
+
+        <div class="callout callout-warn">
+          <p><strong>Choose the Large widget size.</strong></p>
+          <p>
+            This is the one thing worth getting right. The widget shows the
+            story's summary, and only the large size has room for it:
+          </p>
+          <ul>
+            <li><strong>Small</strong> — no summary at all, just a title and reference.</li>
+            <li><strong>Medium</strong> — the summary is cut off after a line or two, usually mid-sentence.</li>
+            <li><strong>Large</strong> — the full summary fits. This is the one to use.</li>
+          </ul>
+          <p>
+            iOS won't let you resize a widget after you've placed it. If you add
+            the wrong size, remove it and add it again.
+          </p>
+        </div>
+
+        <h3>Before you start</h3>
+        <ul>
+          <li>An iPhone or iPad running iOS 14 or later.</li>
+          <li>
+            The free
+            <a href="https://apps.apple.com/app/scriptable/id1405459188" target="_blank" rel="noopener noreferrer">Scriptable</a>
+            app from the App Store.
+          </li>
+          <li>About five minutes.</li>
+        </ul>
+
+        <h3>Step 1 — Add the script to Scriptable</h3>
+        <p>
+          Easiest if you do this on the iPhone or iPad the widget is going on,
+          so the script is already on the clipboard when you get to Scriptable.
+        </p>
+        <ol>
+          <li>Tap <strong>Copy the whole script</strong> below.</li>
+          <li>Open <strong>Scriptable</strong>.</li>
+          <li>Tap the <strong>+</strong> in the top-right corner to start a blank script.</li>
+          <li>Tap and hold in the editor, then tap <strong>Paste</strong>.</li>
+          <li>
+            Tap the script's name at the top of the editor and rename it
+            <strong>Scripture Stories</strong> — you'll pick it from a list
+            later, so give it a name you'll recognise.
+          </li>
+          <li>Tap <strong>Done</strong>.</li>
+        </ol>
+
+        <p>
+          Tap the script's play button now to check it works. It should show a
+          story rather than an error.
+        </p>
+
+        <div class="copy-bar">
+          <button type="button" id="widget-copy" class="primary-btn copy-btn">
+            Copy the whole script
+          </button>
+          <p id="widget-copy-status" class="copy-status" role="status"></p>
+        </div>
+
+        <details class="code-block">
+          <summary>
+            <span>View the script</span>
+            <span class="code-block-note">scripture-stories-widget.js</span>
+          </summary>
+          <p class="code-block-hint">
+            You don't need to select any of this by hand — the button above
+            copies all of it. If you'd rather do it manually, tapping the code
+            once selects the whole thing.
+          </p>
+          <pre id="widget-code" class="loading"><code></code></pre>
+          <p class="code-block-hint">
+            <a href="widget/scripture-stories-widget.js" download>Download the file</a>
+            instead, if you prefer.
+          </p>
+        </details>
+
+        <h3>Step 2 — Add the widget to your Home Screen</h3>
+        <ol>
+          <li>Go to your Home Screen and press and hold on any empty space until the icons start to jiggle.</li>
+          <li>
+            Tap <strong>+</strong> in the top-left corner. (On iOS 18 and later,
+            tap <strong>Edit</strong> first, then <strong>Add Widget</strong>.)
+          </li>
+          <li>Search for <strong>Scriptable</strong> and tap it.</li>
+          <li>
+            <strong>Swipe across to the large square preview</strong> — the
+            widget previews are arranged small, medium, large. See the warning
+            above.
+          </li>
+          <li>Tap <strong>Add Widget</strong>.</li>
+          <li>Tap <strong>Done</strong>, or tap an empty area to stop the jiggling.</li>
+        </ol>
+
+        <h3>Step 3 — Point the widget at the script</h3>
+        <p>
+          A freshly added Scriptable widget doesn't know which script to run yet,
+          so it will look blank or say "Select script in widget configuration".
+        </p>
+        <ol>
+          <li>Press and hold the new widget.</li>
+          <li>Tap <strong>Edit Widget</strong>.</li>
+          <li>Tap <strong>Script</strong> and choose <strong>Scripture Stories</strong>.</li>
+          <li>Leave <strong>When Interacting</strong> set to <strong>Run Script</strong>.</li>
+          <li>Tap outside the panel to close it.</li>
+        </ol>
+        <p>A story should appear within a few seconds.</p>
+
+        <h3>Optional — Show only one part of the scriptures</h3>
+        <p>
+          In the same <strong>Edit Widget</strong> panel there's a
+          <strong>Parameter</strong> field. Leave it empty to draw from
+          everything, or enter one of these to narrow it down:
+        </p>
+        <ul class="slug-list">
+          <li><code>old_testament</code></li>
+          <li><code>new_testament</code></li>
+          <li><code>book_of_mormon</code></li>
+          <li><code>church_history</code></li>
+        </ul>
+        <p>
+          You can combine them with commas and no spaces, for example
+          <code>old_testament,new_testament</code>. A typo here makes the widget
+          show an error instead of a story, so check the spelling against the
+          list above.
+        </p>
+        <p>
+          Want two at once? Add a second widget and give it a different
+          parameter — each widget keeps its own setting.
+        </p>
+
+        <h3>If something doesn't look right</h3>
+        <dl class="faq">
+          <dt>The summary is cut off partway through.</dt>
+          <dd>
+            You're on the small or medium widget. iOS can't resize a placed
+            widget, so remove it and add the large one instead.
+          </dd>
+
+          <dt>It says "Select script in widget configuration".</dt>
+          <dd>Step 3 hasn't been done yet — press and hold the widget and pick the script.</dd>
+
+          <dt>It says "Couldn't load a story".</dt>
+          <dd>
+            The widget couldn't reach the API. Check your connection, then open
+            Scriptable and run the script directly — the error it shows there is
+            usually more specific.
+          </dd>
+
+          <dt>The story doesn't change very often.</dt>
+          <dd>
+            The script asks for a refresh about once an hour, but iOS makes the
+            final call and will refresh less often to save battery — especially
+            in Low Power Mode, or for a widget you rarely look at. This is normal
+            and can't be forced from the script.
+          </dd>
+
+          <dt>It stopped updating entirely.</dt>
+          <dd>
+            Removing the widget and adding it again usually clears it. Make sure
+            Scriptable is allowed to refresh in the background under
+            <strong>Settings → General → Background App Refresh</strong>.
+          </dd>
+        </dl>
+      </div>
     </section>
   </main>
 

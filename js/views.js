@@ -1,4 +1,4 @@
-const VIEWS = ["random", "browse", "gallery"];
+const VIEWS = ["random", "browse", "gallery", "widgets"];
 const DEFAULT_VIEW = "random";
 
 function showView(name) {

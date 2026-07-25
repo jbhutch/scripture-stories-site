@@ -364,3 +364,168 @@ body.modal-open {
 .random-btn-bottom {
   margin-top: 1.5rem;
 }
+
+/* Widgets page: a long read rather than a grid, so it gets a narrower
+   measure than the 960px main. */
+.prose {
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.prose h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+}
+
+.prose h3 {
+  margin: 2.25rem 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.prose .lede {
+  color: var(--muted);
+  margin-top: 0;
+}
+
+.prose ol,
+.prose ul {
+  padding-left: 1.3rem;
+}
+
+.prose li {
+  margin-bottom: 0.4rem;
+}
+
+.prose a {
+  color: var(--accent);
+}
+
+.prose code {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.slug-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+/* The size warning is the one thing on this page people can get wrong in a
+   way iOS won't let them undo, so it gets pulled out of the flow. */
+.callout {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.callout > :first-child {
+  margin-top: 0;
+}
+
+.callout > :last-child {
+  margin-bottom: 0;
+}
+
+.callout-warn {
+  border-left-color: #d98324;
+}
+
+/* Copying the script is the main thing this page asks anyone to do, and most
+   people will be doing it on the phone the widget is for -- so it's a full
+   primary button rather than a link tucked into a code header. */
+.copy-bar {
+  margin: 1.25rem 0;
+}
+
+.copy-btn {
+  width: 100%;
+  padding: 0.9rem 1.4rem;
+  font-size: 1.05rem;
+}
+
+.copy-status {
+  margin: 0.6rem 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+  min-height: 1.3em;
+}
+
+.copy-status-warn {
+  color: var(--error-fg);
+}
+
+/* Collapsed by default: 120 lines of code between step 1 and step 2 buries
+   the instructions, and nobody needs to read it to use it. */
+.code-block {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin: 1.25rem 0;
+  background: var(--card-bg);
+}
+
+.code-block summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0.7rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.code-block-note {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.code-block-hint {
+  margin: 0;
+  padding: 0 0.9rem 0.7rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.code-block pre {
+  margin: 0;
+  padding: 0.9rem;
+  overflow: auto;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  max-height: 22rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.code-block pre.loading {
+  padding: 0;
+}
+
+.code-block pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  /* One tap selects the entire script, so the manual route on iOS is a tap
+     and a Copy rather than dragging a selection over 120 lines. */
+  user-select: all;
+  -webkit-user-select: all;
+}
+
+.faq dt {
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+.faq dd {
+  margin: 0.3rem 0 0;
+  color: var(--muted);
+}
