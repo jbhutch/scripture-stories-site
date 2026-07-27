@@ -127,6 +127,7 @@ main {
   padding: 0;
   cursor: pointer;
   text-align: left;
+  text-decoration: none;
   font: inherit;
   color: inherit;
 }
@@ -459,6 +460,21 @@ body.modal-open {
 
 .copy-status-warn {
   color: var(--error-fg);
+}
+
+/* Fallback text for the story-detail "Copy link" button when the Clipboard
+   API throws -- short enough to just show inline rather than needing the
+   select-and-scroll trick copyScript() uses for the widget's 120-line script. */
+.copy-fallback-link {
+  display: inline-block;
+  margin-top: 0.3rem;
+  padding: 0.2rem 0.4rem;
+  background: var(--card-bg);
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.85em;
+  word-break: break-all;
+  user-select: all;
 }
 
 /* Collapsed by default: 120 lines of code between step 1 and step 2 buries

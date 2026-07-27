@@ -25,13 +25,10 @@ function appendImage(container, story) {
   }
 }
 
-export function buildStoryCard(story, { onClick } = {}) {
-  const card = document.createElement(onClick ? "button" : "div");
+export function buildStoryCard(story) {
+  const card = document.createElement("a");
   card.className = "story-card";
-  if (onClick) {
-    card.type = "button";
-    card.addEventListener("click", () => onClick(story));
-  }
+  card.href = `#story/${story.id}`;
 
   appendImage(card, story);
 
@@ -43,7 +40,7 @@ export function buildStoryCard(story, { onClick } = {}) {
   body.appendChild(title);
 
   // Plain text here even when the story has a referenceUrl -- an <a> can't be
-  // nested inside the <button> the card is built from. The link lives in the
+  // nested inside the <a> the card is built from. The link lives in the
   // detail view instead.
   const reference = document.createElement("p");
   reference.className = "story-reference";
@@ -79,6 +76,52 @@ function buildReference(story) {
   return p;
 }
 
+// Browse/Gallery cards are real #story/<id> links, so their URL is already
+// correct the moment the modal opens -- no button needed there. Random's
+// result never touches the hash (rerolling would spam the address bar), so
+// this is the only way to get a link to what it's currently showing.
+function buildCopyLinkBar(story) {
+  const bar = document.createElement("div");
+  bar.className = "copy-bar";
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "primary-btn copy-btn";
+  button.textContent = "Copy link to this story";
+
+  const status = document.createElement("p");
+  status.className = "copy-status";
+  status.setAttribute("role", "status");
+
+  button.addEventListener("click", () => copyStoryLink(story, button, status));
+
+  bar.appendChild(button);
+  bar.appendChild(status);
+  return bar;
+}
+
+async function copyStoryLink(story, button, status) {
+  const url = `${location.origin}${location.pathname}#story/${story.id}`;
+  const defaultLabel = "Copy link to this story";
+
+  try {
+    await navigator.clipboard.writeText(url);
+    button.textContent = "Copied";
+    status.textContent = "Copied to clipboard.";
+    status.classList.remove("copy-status-warn");
+  } catch {
+    status.innerHTML = "";
+    status.append("Couldn't copy automatically — here's the link: ");
+    const fallback = document.createElement("span");
+    fallback.className = "copy-fallback-link";
+    fallback.textContent = url;
+    status.appendChild(fallback);
+    status.classList.add("copy-status-warn");
+  }
+
+  setTimeout(() => (button.textContent = defaultLabel), 3000);
+}
+
 export function buildStoryDetail(story) {
   const wrap = document.createElement("div");
   wrap.className = "story-detail";
@@ -97,6 +140,8 @@ export function buildStoryDetail(story) {
     summary.textContent = story.summary;
     wrap.appendChild(summary);
   }
+
+  wrap.appendChild(buildCopyLinkBar(story));
 
   return wrap;
 }
@@ -130,10 +175,21 @@ export function closeModal() {
   document.body.classList.remove("modal-open");
 }
 
+// Opening a Browse/Gallery card is a real #story/<id> navigation, so the
+// browser already has a history entry for whatever was showing before it --
+// back() restores that natively, no need to track it ourselves. The one
+// case where there's nothing to go back to is a shared link opened cold
+// (typical for a link tapped from a text message): back() just no-ops then,
+// and the modal still closes via the unconditional hide below either way.
+function requestClose() {
+  closeModal();
+  history.back();
+}
+
 export function initModal() {
   const overlay = modal();
-  overlay.querySelectorAll("[data-close]").forEach((el) => el.addEventListener("click", closeModal));
+  overlay.querySelectorAll("[data-close]").forEach((el) => el.addEventListener("click", requestClose));
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !overlay.hidden) closeModal();
+    if (e.key === "Escape" && !overlay.hidden) requestClose();
   });
 }

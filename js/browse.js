@@ -1,6 +1,5 @@
 import { getStories, getCategories } from "./api.js";
 import { buildStoryCard, showError, clear } from "./render.js";
-import { showStoryDetail } from "./gallery.js";
 
 // Memoized so initBrowseView and showBrowseSection can each ask for the
 // categories without caring which one ran first -- the router may route to a
@@ -92,6 +91,6 @@ function renderStories(resultsEl, stories) {
     return;
   }
   for (const story of stories) {
-    resultsEl.appendChild(buildStoryCard(story, { onClick: showStoryDetail }));
+    resultsEl.appendChild(buildStoryCard(story));
   }
 }

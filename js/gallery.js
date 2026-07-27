@@ -1,5 +1,5 @@
-import { getStories, getStoryById } from "./api.js";
-import { buildStoryCard, buildStoryDetail, showError, clear, openModal } from "./render.js";
+import { getStories } from "./api.js";
+import { buildStoryCard, showError, clear } from "./render.js";
 
 const BATCH_SIZE = 24;
 
@@ -29,23 +29,8 @@ export async function initGalleryView() {
 function renderNextBatch(gridEl, loadMoreBtn) {
   const next = allStories.slice(renderedCount, renderedCount + BATCH_SIZE);
   for (const story of next) {
-    gridEl.appendChild(buildStoryCard(story, { onClick: showStoryDetail }));
+    gridEl.appendChild(buildStoryCard(story));
   }
   renderedCount += next.length;
   loadMoreBtn.hidden = renderedCount >= allStories.length;
-}
-
-export async function showStoryDetail(story) {
-  const loading = document.createElement("div");
-  loading.className = "loading modal-loading";
-  openModal(loading);
-
-  try {
-    const full = await getStoryById(story.id);
-    openModal(buildStoryDetail(full));
-  } catch (err) {
-    const errWrap = document.createElement("div");
-    showError(errWrap, err);
-    openModal(errWrap);
-  }
 }
