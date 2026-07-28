@@ -1,3 +1,5 @@
+import { closeStory } from "./views.js";
+
 // Returns null when there's no image. Callers mark the card/detail with the
 // `no-image` class instead of substituting a placeholder, so image-less
 // stories read as a deliberate text card rather than a failed load.
@@ -175,15 +177,9 @@ export function closeModal() {
   document.body.classList.remove("modal-open");
 }
 
-// Opening a Browse/Gallery card is a real #story/<id> navigation, so the
-// browser already has a history entry for whatever was showing before it --
-// back() restores that natively, no need to track it ourselves. The one
-// case where there's nothing to go back to is a shared link opened cold
-// (typical for a link tapped from a text message): back() just no-ops then,
-// and the modal still closes via the unconditional hide below either way.
 function requestClose() {
   closeModal();
-  history.back();
+  closeStory();
 }
 
 export function initModal() {
